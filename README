@@ -1,0 +1,22 @@
+This software are Convolutional Neural Network(cnn)-based miRNA classifier. We only use the nucleotide/base sequence of pre-miRNA to predict the classification. Based on the mechanism of generation, miRNA can be classified into mirtron and classical miRNA.
+
+We trained our models on the partiton of human pre-miRNAs dataset and the performance was evaluated on the test dataset.
+
+Using the well-trained model, the pre-miRNA sequence can be easily classified.
+
+This implementation is written in python3 and numpy and tensorflow is required.
+
+Python Requirements
+
+Python 3.5.2
+
+pip install numpy 
+pip install tensorflow
+
+USAGE: python isMirtron.py -s pre-miRNA sequnece
+    or python isMirtron.py --sequence  pre-miRNA sequnece
+for example: python isMirtron.py -s GTAAGTCTGGGGAGATGGGGGGAGCTCTGCTGAGGGTGCACAAGGCCCTGGCTCTACACACATCCCTGTCTTACAG
+
+USAGE HELP: python isMirtron.py -h or python isMirtron --help
+
+
