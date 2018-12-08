@@ -1,13 +1,14 @@
+#! /usr/bin/env python3
+
 """predict whether it is mirtron.  "yes" means "is mirtron".
    "no" means "is not a mirtron"
 """
-#! usr/bin/env python3
 
 import tensorflow as tf
 import sys
-sys.path.append("./src/dataPreprocess")
-sys.path.append("./src/modelConstruct")
-sys.path.append("../modelEvaluate")
+sys.path.append("./src/data_preprocess")
+sys.path.append("./src/model_construct")
+sys.path.append("../model_evaluate")
 import dataRead
 import dataVectorization
 import model_construction
@@ -40,8 +41,8 @@ x_cast = {"A":[[1],[0],[0],[0]],"U":[[0],[1],[0],[0]],\
           "C":[[0],[0],[0],[1]],"N":[[0],[0],[0],[0]]}
 
 def usage():
-    print("USAGE: isMirtron -s pre-miRNA sequnece\n")
-    print("Example: isMirtron -s GTAAGTCTGGGGAGATGGGGGGAGCTCTGCTGAGGGTGCACAAGGCCCTGGCTCTACACACATCCCTGTCTTACAG")
+    print("USAGE: python isMirtron -s pre-miRNA sequnece\n")
+    print("Example: python isMirtron -s CTGGGGAGATGGGGGGAGCTCTGCTGAGGGTGCACAAGGCCCTGGCTCTACACACATCCCTGTCTTACAG")
 
 # padding and trim the sequence to the length of SEQUENCE_LENGTH
 def seq_process(seq):
@@ -73,15 +74,14 @@ def seq_vectorize(seq):
     return vectorized_seq
 
 try:
-    opts, args = getopt.getopt(sys.argv[1:], "hs:",["help", "sequence="])
-    if len(args) <=1:
-        usage()
-        sys.exit(1)
+    opts, args = getopt.getopt(sys.argv[1:],"hs:",["help","sequence="])
 except getopt.GetoptError:
     print ("Wrong usage!\n")
     usage()
     sys.exit(1)
-
+if len(opts) < 1:
+    usage()
+    sys.exit(1)
 # parse the options
 for op, value in opts:
     if op in ("-s","--sequence"):
