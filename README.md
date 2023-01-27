@@ -38,8 +38,10 @@ You need to create a new conda environment
 cd CNNMIRTRONPRED_DIR
 conda create -p .condaenv -y python=3.5
 conda install -p .condaenv -c anaconda -y numpy
-conda install -p .condaenv -c anaconda -y tensorflow-gpu
+conda install -p .condaenv -c anaconda -y tensorflow
 ```
+
+Use `tensorflow-gpu` if you have a GPU.
 
 ## Run - Method n 01
 
