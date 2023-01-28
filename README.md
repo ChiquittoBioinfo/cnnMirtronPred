@@ -41,7 +41,14 @@ conda install -p .condaenv -c anaconda -y numpy
 conda install -p .condaenv -c anaconda -y tensorflow
 ```
 
-Use `tensorflow-gpu` if you have a GPU.
+Or use `tensorflow-gpu` if you have a GPU.
+
+```bash
+cd CNNMIRTRONPRED_DIR
+conda create -p .condaenvgpu -y python=3.5
+conda install -p .condaenvgpu -c anaconda -y numpy
+conda install -p .condaenvgpu -c anaconda -y tensorflow-gpu
+```
 
 ## Run - Method n 01
 
@@ -64,19 +71,33 @@ Run directly in the environment.
 
 ```bash
 cd CNNMIRTRONPRED_DIR
-conda run -p .condaenv python isMirtronCsv.py --csv data/samples.csv
+conda run -p .condaenv python isMirtronCsv.py --csv samples.csv
 ```
 
 ## Utility: Convert your FASTA file to CSV
 
 ```bash
-echo 'id,seq' > data/samples.csv
-awk -f fasta2csv.awk data/samples.fa >> data/samples.csv
+echo 'id,seq' > samples.csv
+awk -f fasta2csv.awk samples.fa >> samples.csv
 ```
 
 ## Utility: Convert sequence list to CSV
 
 ```bash
-echo 'id,seq' > data/samples.csv
-awk 'BEGIN{OFS=","} { print "seq" NR, $0 }' data/samples.txt >> data/samples.csv
+echo 'id,seq' > samples.csv
+awk 'BEGIN{OFS=","} { print "seq" sprintf("%05d", NR), $0 }' samples.txt >> samples.csv
 ```
+
+## Utility: Convert sequence list to CNN input file
+
+```bash
+echo 'id,seq,class' > datac/ds_mirtrons.csv
+awk 'BEGIN{OFS=","} { print "seq" sprintf("%05d", NR), $0,"TRUE" }' datac/mirtrons_gan.txt | head -n 707 >> datac/ds_mirtrons.csv
+
+echo 'id,seq,class' > datac/ds_canonical.csv
+awk 'BEGIN{FS=","; OFS=","} { if ($3 == "FALSE") { print $0 } }' data/miRBase_set.csv >> datac/ds_canonical.csv
+```
+
+## Treinamento do modelo
+
+O trabalho original usou 707 canonical miRNAs and 417 mirtrons, ou seja, uma proporção de 1 miRNA para cada 0.58 mirtrons.

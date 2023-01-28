@@ -13,8 +13,10 @@ def read_data(file1_path,file2_path):
 
     # read the data into a list(name,sequence,class)
     for row in dataset1_reader:
+        if row[0] == 'id': continue
         all_data_set.append([row[0],row[1],row[2]])
     for row in dataset2_reader:
+        if row[0] == 'id': continue
         all_data_set.append([row[0],row[1],row[2]])    
     # shuffle the data set randomly    
     random.seed(2)

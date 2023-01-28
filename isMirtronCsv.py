@@ -3,7 +3,7 @@
 # Use CSV with id and seq headers
 # See README.md
 # Use with conda environment
-# conda run -p .condaenv python isMirtronCsv.py --csv sample.csv
+# conda run -p .condaenv python isMirtronCsv.py --csv datac/samples1.csv
 
 """predict whether it is mirtron.  "1" means "is mirtron".
    "0" means "is not a mirtron"
@@ -86,9 +86,9 @@ def create_tf_session():
   sess = tf.Session(config=sess_config)
 
   # restore the trained model
-  saver = tf.train.import_meta_graph('logs/filter6/filter6.ckpt.meta')
+  saver = tf.train.import_meta_graph('logs/filter6_chiquitto/filter6.ckpt.meta')
   # print("graph restore succeed")
-  saver.restore(sess,tf.train.latest_checkpoint("logs/filter6/"))
+  saver.restore(sess,tf.train.latest_checkpoint("logs/filter6_chiquitto/"))
   # print("parameters restore succeed")
 
   predict_result = tf.get_collection('pred_network')[0]

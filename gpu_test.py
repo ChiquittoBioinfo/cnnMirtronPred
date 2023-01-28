@@ -1,9 +1,9 @@
 import os
 import tensorflow as tf
 
-config = tf.ConfigProto()
-config.gpu_options.per_process_gpu_memory_fraction = 0.9
-tf.keras.backend.set_session(tf.Session(config=config));
+# config = tf.ConfigProto()
+# config.gpu_options.per_process_gpu_memory_fraction = 0.9
+# tf.keras.backend.set_session(tf.Session(config=config));
 
 print('*' * 30)
 gpu_available = tf.test.is_gpu_available()

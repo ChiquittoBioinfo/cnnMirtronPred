@@ -4,9 +4,9 @@
 import numpy as np
 import dataRead
 
-def vectorize_data(dataset):
+def vectorize_data(dataset, max_seq_len = 0):
     # get the maxmium length of the seqence
-    max_seq_len = 0
+    # max_seq_len = 0
     for item in dataset:
         if len(item[1])>max_seq_len:
             max_seq_len = len(item[1])
