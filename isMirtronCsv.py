@@ -9,8 +9,11 @@
    "0" means "is not a mirtron"
 """
 
+# https://stackoverflow.com/questions/35911252/disable-tensorflow-debugging-information
+import sys, os
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3' 
+
 import tensorflow as tf
-import sys
 sys.path.append("./src/data_preprocess")
 sys.path.append("./src/model_construct")
 sys.path.append("../model_evaluate")
@@ -20,7 +23,6 @@ sys.path.append("../model_evaluate")
 import getopt
 import numpy as np
 import csv
-import os
 
 BATCH_SIZE_RESULT = 1000
 
@@ -86,9 +88,9 @@ def create_tf_session():
   sess = tf.Session(config=sess_config)
 
   # restore the trained model
-  saver = tf.train.import_meta_graph('logs/filter6_chiquitto/filter6.ckpt.meta')
+  saver = tf.train.import_meta_graph('logs/filter6/filter6.ckpt.meta')
   # print("graph restore succeed")
-  saver.restore(sess,tf.train.latest_checkpoint("logs/filter6_chiquitto/"))
+  saver.restore(sess,tf.train.latest_checkpoint("logs/filter6/"))
   # print("parameters restore succeed")
 
   predict_result = tf.get_collection('pred_network')[0]

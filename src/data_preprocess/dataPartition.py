@@ -27,6 +27,14 @@ def data_partition(data_vectors):
 
     return X_train, y_train, X_test, y_test
 
+def data_partition_2(data_vectors):
+    X_train, y_train = [], []
+    for item in data_vectors:
+        X_train.append(item[1])
+        y_train.append(item[2])
+
+    return X_train, y_train, X_train, y_train
+
 if __name__ == "__main__":
     FILE_PATH = "../../data/miRBase_set.csv"
     FILE_PATH_PUTATIVE = "../../data/putative_mirtrons_set.csv"
