@@ -88,9 +88,9 @@ def create_tf_session():
   sess = tf.Session(config=sess_config)
 
   # restore the trained model
-  saver = tf.train.import_meta_graph('logs/filter6/filter6.ckpt.meta')
+  saver = tf.train.import_meta_graph('{modelpath}/{modelname}.meta'.format(modelpath=opts['modelpath'], modelname=opts['modelname']))
   # print("graph restore succeed")
-  saver.restore(sess,tf.train.latest_checkpoint("logs/filter6/"))
+  saver.restore(sess,tf.train.latest_checkpoint(opts['modelpath']))
   # print("parameters restore succeed")
 
   predict_result = tf.get_collection('pred_network')[0]
@@ -103,24 +103,47 @@ def create_tf_session():
 
   return sess, predict_result, input_X, keep_prob
 
-try:
-  opts, args = getopt.getopt(sys.argv[1:],"hs:",["help","csv="])
-except getopt.GetoptError:
-  print ("Wrong usage!\n")
-  usage()
-  sys.exit(1)
-
-if len(opts) < 1:
-  usage()
-  sys.exit(1)
-
-# parse the options
-for op, value in opts:
-  if op in ("-s","--csv"):
-    input_path = value
-  elif op in ("-h","--help"):
+def process_argv():
+  try:
+    opts, args = getopt.getopt(sys.argv[1:],"hs:",["help","csv=", "modelpath="])
+  except getopt.GetoptError as error:
+    print("Wrong usage!")
     usage()
-    sys.exit()
+    sys.exit(1)
+
+  if len(opts) < 1:
+    usage()
+    sys.exit(1)
+
+  # parse the options
+  r = {}
+  for op, value in opts:
+    if op in ("-s","--csv"):
+      r['csv'] = value
+    if op in ("--modelpath"):
+      r['modelpath'] = value
+      r['modelname'] = 'model.ckpt'
+    elif op in ("-h","--help"):
+      usage()
+      sys.exit()
+  
+  requireds = ["csv"]
+  for required in requireds:
+    if not required in r:
+      print("Wrong usage!!")
+      usage()
+      sys.exit(1)
+  
+  if not "modelpath" in r:
+    r['modelpath'] = "logs/filter6"
+    r['modelname'] = 'filter6.ckpt'
+
+  return r
+
+opts = process_argv()
+# sys.exit(1)
+
+input_path = opts['csv']
 
 results = []
 

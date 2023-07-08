@@ -43,10 +43,10 @@ NUM_CLASSES = 2   # classification number
 DROPOUT_KEEP_PROB = 0.5   #keep probability of dropout
 
 def usage():
-    print("USAGE: python create_model_conv6.py --canonical canonical.csv --mirtrons mirtrons.csv --log ~/log --model filter6.ckpt")
+    print("USAGE: python create_model_conv6.py --canonical canonical.csv --mirtrons mirtrons.csv --modelpath ~/modelpath")
 
 def process_argv():
-    requireds = ["canonical", "mirtrons", "log", "model"]
+    requireds = ["canonical", "mirtrons", "modelpath"]
 
     try:
         longopts = [ opt + "=" for opt in requireds ]
@@ -63,10 +63,8 @@ def process_argv():
             r['canonical'] = value
         elif op in ("--mirtrons"):
             r['mirtrons'] = value
-        elif op in ("--log"):
-            r['log'] = value
-        elif op in ("--model"):
-            r['model'] = value
+        elif op in ("--modelpath"):
+            r['modelpath'] = value
         elif op in ("-h","--help"):
             usage()
             sys.exit()
@@ -80,8 +78,11 @@ def process_argv():
     return r
 
 def train_model_conv6(opts):
-    log_path = opts['log']
-    model_path = opts['model']
+    log_path = opts['outputpath']
+    model_path = log_path + '/model.ckpt'
+
+    if not os.path.exists(log_path):
+        os.makedirs(log_path)
 
     FILE_PATH = opts['canonical']
     FILE_PATH_PUTATIVE = opts['mirtrons']
@@ -175,7 +176,7 @@ def train_model_conv6(opts):
           #  print loss and accuracy during the training process
             if(i%1000==0):
                 print("The {} iteration".format(i))
-              #   print("The cross_entropy_mean为：",end='')
+              #   print("The cross_entropy_mean:",end='')
               #   print(sess.run(cross_entropy_mean,\
               #                  feed_dict={input_X:batch_xs,input_y:batch_ys,\
               #                             keep_prob:DROPOUT_KEEP_PROB}))
@@ -207,7 +208,7 @@ def train_model_conv6(opts):
 if __name__ == "__main__":
     # This file contains adaptations for automated execution
     # Example:
-    # python create_model_conv6.py --canonical datac/ds_canonical.csv --mirtrons datac/ds_mirtrons.csv --log ~/logs --model ~/model.ckpt
+    # python create_model_conv6.py --canonical datac/ds_canonical.csv --mirtrons datac/ds_mirtrons.csv --modelpath ~/cnnmirtronpred
 
     opts = process_argv()
     train_model_conv6(opts)
