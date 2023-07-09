@@ -71,14 +71,14 @@ def process_argv():
 
     for required in requireds:
         if not required in r:
-            print("Wrong usage!")
+            print("Wrong usage!!")
             usage()
             sys.exit(1)
 
     return r
 
 def train_model_conv6(opts):
-    log_path = opts['outputpath']
+    log_path = opts['modelpath']
     model_path = log_path + '/model.ckpt'
 
     if not os.path.exists(log_path):

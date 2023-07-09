@@ -46,8 +46,8 @@ x_cast = {"A":[[1],[0],[0],[0]],"U":[[0],[1],[0],[0]],\
           "C":[[0],[0],[0],[1]],"N":[[0],[0],[0],[0]]}
 
 def usage():
-  print("USAGE: python isMirtron --csv input.csv")
-  print("Example: python isMirtron --csv your_sequences.csv")
+  print("USAGE: python isMirtron --csv input.csv --modelpath ~/model --output output.csv")
+  print("Example: python isMirtron --csv your_sequences.csv --modelpath ~/model --output output.csv")
 
 # padding and trim the sequence to the length of SEQUENCE_LENGTH
 def seq_process(seq):
@@ -105,7 +105,7 @@ def create_tf_session():
 
 def process_argv():
   try:
-    opts, args = getopt.getopt(sys.argv[1:],"hs:",["help","csv=", "modelpath="])
+    opts, args = getopt.getopt(sys.argv[1:],"hs:",["help","csv=", "modelpath=", "output="])
   except getopt.GetoptError as error:
     print("Wrong usage!")
     usage()
@@ -123,6 +123,8 @@ def process_argv():
     if op in ("--modelpath"):
       r['modelpath'] = value
       r['modelname'] = 'model.ckpt'
+    if op in ("--output"):
+      r['output'] = value
     elif op in ("-h","--help"):
       usage()
       sys.exit()
@@ -137,6 +139,8 @@ def process_argv():
   if not "modelpath" in r:
     r['modelpath'] = "logs/filter6"
     r['modelname'] = 'filter6.ckpt'
+  if not "output" in r:
+    r['output'] = os.path.splitext(input_path)[0] + '_cnnmirtronpred.csv'
 
   return r
 
@@ -144,6 +148,7 @@ opts = process_argv()
 # sys.exit(1)
 
 input_path = opts['csv']
+csvoutput = opts['output']
 
 results = []
 
@@ -153,7 +158,7 @@ csvreader = csv.DictReader(csvinput, delimiter=',', quotechar='"')
 
 # Create CSV output
 fieldnames = ['id', 'seq', 'ismirtron']
-csvoutput = os.path.splitext(input_path)[0] + '_cnnmirtronpred.csv'
+# csvoutput = os.path.splitext(input_path)[0] + '_cnnmirtronpred.csv'
 
 csvfile_writer = open(csvoutput, 'w', newline='')
 csvwriter = csv.DictWriter(csvfile_writer, fieldnames=fieldnames)
