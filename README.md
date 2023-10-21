@@ -36,18 +36,18 @@ You need to create a new conda environment
 
 ```bash
 cd CNNMIRTRONPRED_DIR
-conda create -p .condaenv -y python=3.5
-conda install -p .condaenv -c anaconda -y numpy
-conda install -p .condaenv -c anaconda -y tensorflow
+conda create -n cnnmirtronpred -y python=3.5
+conda install -n cnnmirtronpred -c anaconda -y numpy
+conda install -n cnnmirtronpred -c anaconda -y tensorflow
 ```
 
 Or use `tensorflow-gpu` if you have a GPU.
 
 ```bash
 cd CNNMIRTRONPRED_DIR
-conda create -p .condaenvgpu -y python=3.5
-conda install -p .condaenvgpu -c anaconda -y numpy
-conda install -p .condaenvgpu -c anaconda -y tensorflow-gpu
+conda create -n cnnmirtronpred -y python=3.5
+conda install -n cnnmirtronpred -c anaconda -y numpy
+conda install -n cnnmirtronpred -c anaconda -y tensorflow-gpu
 ```
 
 ## Run - Method n 01
@@ -55,8 +55,7 @@ conda install -p .condaenvgpu -c anaconda -y tensorflow-gpu
 1. You need to activate the environment
 
 ```bash
-cd CNNMIRTRONPRED_DIR
-conda activate .condaenv
+conda activate cnnmirtronpred
 ```
 
 2. Classify your CSV with
@@ -71,7 +70,7 @@ Run directly in the environment.
 
 ```bash
 cd CNNMIRTRONPRED_DIR
-conda run -p .condaenv python isMirtronCsv.py --csv samples.csv
+conda run -n cnnmirtronpred python isMirtronCsv.py --csv samples.csv
 ```
 
 ## Utility: Convert your FASTA file to CSV
