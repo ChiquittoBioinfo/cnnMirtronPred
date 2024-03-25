@@ -26,7 +26,7 @@ import getopt
 
 # hyperparameters
 LR = 0.001       #learning rate
-TRAINING_ITER = 10000   #iteration times
+TRAINING_ITER = 3000 # 10000   #iteration times
 BATCH_SIZE = 18        #batch size of input
  
 SEQUENCE_LENGTH = 164   #sequence length of input
@@ -43,10 +43,10 @@ NUM_CLASSES = 2   # classification number
 DROPOUT_KEEP_PROB = 0.5   #keep probability of dropout
 
 def usage():
-    print("USAGE: python create_model_conv6.py --canonical canonical.csv --mirtrons mirtrons.csv --modelpath ~/modelpath")
+    print("USAGE: python create_model_conv6.py --neg neg.csv --pos pos.csv --modelpath ~/modelpath")
 
 def process_argv():
-    requireds = ["canonical", "mirtrons", "modelpath"]
+    requireds = ["neg", "pos", "modelpath"]
 
     try:
         longopts = [ opt + "=" for opt in requireds ]
@@ -59,10 +59,10 @@ def process_argv():
     # parse the options
     r = {}
     for op, value in opts:
-        if op in ("--canonical"):
-            r['canonical'] = value
-        elif op in ("--mirtrons"):
-            r['mirtrons'] = value
+        if op in ("--neg"):
+            r['neg'] = value
+        elif op in ("--pos"):
+            r['pos'] = value
         elif op in ("--modelpath"):
             r['modelpath'] = value
         elif op in ("-h","--help"):
@@ -84,8 +84,8 @@ def train_model_conv6(opts):
     if not os.path.exists(log_path):
         os.makedirs(log_path)
 
-    FILE_PATH = opts['canonical']
-    FILE_PATH_PUTATIVE = opts['mirtrons']
+    FILE_PATH = opts['neg']
+    FILE_PATH_PUTATIVE = opts['pos']
 
     # FILE_PATH = "datac/ds_canonical.csv"
     # FILE_PATH_PUTATIVE = "datac/ds_mirtrons.csv"

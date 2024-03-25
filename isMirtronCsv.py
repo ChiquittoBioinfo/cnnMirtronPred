@@ -140,7 +140,7 @@ def process_argv():
     r['modelpath'] = "logs/filter6"
     r['modelname'] = 'filter6.ckpt'
   if not "output" in r:
-    r['output'] = os.path.splitext(input_path)[0] + '_cnnmirtronpred.csv'
+    r['output'] = os.path.splitext(r['csv'])[0] + '_cnnmirtronpred.csv'
 
   return r
 
